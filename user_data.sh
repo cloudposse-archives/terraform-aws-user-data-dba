@@ -43,15 +43,32 @@ __EOF__
 chmod 644 /usr/local/include/Makefile.${name}.mysql
 
 cat <<"__EOF__" > /usr/local/include/Makefile.${name}.aws_mysql
-DUMP ?= /tmp/mysqldump.sql
-MY_CNF := /root/${name}.my.cnf
-SOURCE ?= ${default_dump_source}
+DUMP_BASENAME ?= mysqldump
+TIMESTAMP:=$(shell date | md5sum | cut -d" " -f1)
+TMP_DIR ?= /tmp/$(TIMESTAMP)
+DB ?= app
 
 .PNONY : ${name}\:db-import-from-s3
 ## Import dump
 ${name}\:db-import-from-s3:
-	@pv $(DUMP) | sudo mysql --defaults-file=$(MY_CNF)
-	MY_CNF=$(MY_CNF) /usr/local/bin/mysql_latin_utf8.sh | pv | sudo mysql --defaults-file=$(MY_CNF)
+	$(eval MY_CNF?=/root/${name}.my.cnf)
+	$(eval SOURCE?=${default_dump_source})
+	@echo "Create tmp dir..."
+	mkdir -p $(TMP_DIR)
+	@echo "Fetch dump..."
+	aws s3 cp --recursive s3://$(SOURCE)/ $(TMP_DIR)
+	@echo "Import base dump..."
+	pv $(TMP_DIR)/$(DUMP_BASENAME).sql.gz | gzip -dc | sudo mysql --defaults-file=$(MY_CNF) $(DB)
+	@echo "Create additional databases..."
+	find $(TMP_DIR) -name "*.gz" -printf "%f\n" | \
+	  sed -e "s/\..*$///" | \
+	  sed -e "s/$(DUMP_BASENAME)//" | \
+	  xargs -I '{}' sudo mysql --defaults-file=$(MY_CNF) -e "CREATE DATABASE IF NOT EXISTS $(DB){}"
+	@echo "Import additional dumps..."
+	find $(TMP_DIR) -name "*.gz" -printf "%f\n" | \
+	  sed -e "s/\..*$///" | \
+	  sed -e "s/$(DUMP_BASENAME)//" | \
+	  xargs -I '{}' sh -c "pv /tmp/$(DUMP_BASENAME){}.sql.gz | gzip -dc | sudo mysql --defaults-file=$(MY_CNF) $(DB){}"
 __EOF__
 chmod 644 /usr/local/include/Makefile.${name}.aws_mysql
 
