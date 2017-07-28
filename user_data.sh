@@ -36,9 +36,9 @@ DUMP ?= /tmp/mysqldump.sql
 .PNONY : ${name}\:db-import
 ## Import dump
 ${name}\:db-import:
-  $(eval MY_CNF?=/root/${name}.my.cnf)
+	$(eval MY_CNF?=/root/${name}.my.cnf)
 	@pv $(DUMP) | sudo mysql --defaults-file=$(MY_CNF)
-	 MY_CNF=$(MY_CNF) /usr/local/bin/mysql_latin_utf8.sh | pv | sudo mysql --defaults-file=$(MY_CNF)
+	MY_CNF=$(MY_CNF) /usr/local/bin/mysql_latin_utf8.sh | pv | sudo mysql --defaults-file=$(MY_CNF)
 __EOF__
 chmod 644 /usr/local/include/Makefile.${name}.mysql
 
