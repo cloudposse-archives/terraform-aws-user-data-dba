@@ -68,7 +68,9 @@ ${name}\:db-import-from-s3:
 	find $(TMP_DIR) -name "*.gz" -printf "%f\n" | \
 	  sed -e "s/\..*$///" | \
 	  sed -e "s/$(DUMP_BASENAME)//" | \
-	  xargs -I '{}' sh -c "pv /tmp/$(DUMP_BASENAME){}.sql.gz | gzip -dc | sudo mysql --defaults-file=$(MY_CNF) $(DB){}"
+	  xargs -I '{}' sh -c "pv $(TMP_DIR)/$(DUMP_BASENAME){}.sql.gz | gzip -dc | sudo mysql --defaults-file=$(MY_CNF) $(DB){}"
+	@echo "Remove tmp dumps..."
+	rm -rf $(TMP_DIR)
 __EOF__
 chmod 644 /usr/local/include/Makefile.${name}.aws_mysql
 
