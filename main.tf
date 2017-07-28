@@ -47,6 +47,14 @@ data "aws_iam_policy_document" "default" {
   }
 
   statement {
+    actions = [ "s3:ListBucket" ]
+
+    effect = "Allow"
+
+    resources = "${formatlist("arn:aws:s3:::%s", distinct(split("|", replace(join("|", var.s3_dump_sources), "/\/[^|]*/g", ""))))}"
+  }
+
+  statement {
     actions = [ "s3:*" ]
 
     effect = "Allow"
