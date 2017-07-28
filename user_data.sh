@@ -3,7 +3,10 @@
 # Install deps
 ##############
 
-apt-get -y install pv mysql-client
+apt-get -y install python-pip pv mysql-client
+
+# Install AWS Client
+pip install --upgrade awscli
 
 ##
 ## MySQL Client Configuration
