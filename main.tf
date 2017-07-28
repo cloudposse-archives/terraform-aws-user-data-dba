@@ -18,7 +18,7 @@ data "template_file" "default" {
     db_password         = "${var.db_password}"
     db_host             = "${var.db_host}"
     name                = "${var.name}"
-    default_dump_source = "${length(var.s3_dump_sources) > 0 ? element(var.s3_dump_sources, 0)}"
+    default_dump_source = "${length(var.s3_dump_sources) > 0 ? element(var.s3_dump_sources, 0) : ""}"
   }
 }
 
