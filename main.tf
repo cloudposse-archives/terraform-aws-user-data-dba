@@ -52,7 +52,6 @@ data "aws_iam_policy_document" "default" {
       "s3:PutObjectAcl",
       "s3:PutObject",
       "s3:ListBucket",
-      "s3:ListObjects",
       "s3:DeleteObject",
     ]
 
