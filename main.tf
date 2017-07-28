@@ -51,7 +51,7 @@ data "aws_iam_policy_document" "default" {
 
     effect = "Allow"
 
-    resources = "${formatlist("arn:aws:s3:::%s", distinct(split("|", replace(join("|", var.s3_dump_sources), "/\\[^|]*/", ""))))}"
+    resources = "${formatlist("arn:aws:s3:::%s", distinct(split("|", replace(join("|", var.s3_dump_sources), "/\\/[^|]*/", ""))))}"
   }
 
   statement {
