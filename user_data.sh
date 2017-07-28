@@ -49,7 +49,7 @@ TMP_DIR ?= /tmp/$(TIMESTAMP)
 DB ?= app
 
 .PNONY : ${name}\:db-import-from-s3
-## Import dump
+## Import dump from ${default_dump_source}
 ${name}\:db-import-from-s3:
 	$(eval MY_CNF?=/root/${name}.my.cnf)
 	$(eval SOURCE?=${default_dump_source})
