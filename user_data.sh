@@ -32,12 +32,25 @@ DUMP ?= /tmp/mysqldump.sql
 MY_CNF := /root/${namespace}.my.cnf
 
 .PNONY : ${namespace}\:db-import
-## Import dump to
+## Import dump
 ${namespace}\:db-import:
 	@pv $(DUMP) | sudo mysql --defaults-file=$(MY_CNF)
 	 MY_CNF=$(MY_CNF) /usr/local/bin/mysql_latin_utf8.sh | pv | sudo mysql --defaults-file=$(MY_CNF)
 __EOF__
 chmod 644 /usr/local/include/Makefile.${namespace}.mysql
+
+cat <<"__EOF__" > /usr/local/include/Makefile.${namespace}.aws_mysql
+DUMP ?= /tmp/mysqldump.sql
+MY_CNF := /root/${namespace}.my.cnf
+SOURCE ?= ${default_dump_source}
+
+.PNONY : ${namespace}\:db-import-from-s3
+## Import dump
+${namespace}\:db-import-from-s3:
+	@pv $(DUMP) | sudo mysql --defaults-file=$(MY_CNF)
+	MY_CNF=$(MY_CNF) /usr/local/bin/mysql_latin_utf8.sh | pv | sudo mysql --defaults-file=$(MY_CNF)
+__EOF__
+chmod 644 /usr/local/include/Makefile.${namespace}.aws_mysql
 
 cat <<"__EOF__" > /usr/local/include/Makefile.${namespace}.rds
 CLUSTER ?= ${db_cluster_name}
