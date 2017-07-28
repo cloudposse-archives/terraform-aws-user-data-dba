@@ -32,11 +32,11 @@ chmod +x /usr/local/bin/rds_restore_cluster_from_snapshot.sh
 
 cat <<"__EOF__" > /usr/local/include/Makefile.${name}.mysql
 DUMP ?= /tmp/mysqldump.sql
-MY_CNF := /root/${name}.my.cnf
 
 .PNONY : ${name}\:db-import
 ## Import dump
 ${name}\:db-import:
+  $(eval MY_CNF?=/root/${name}.my.cnf)
 	@pv $(DUMP) | sudo mysql --defaults-file=$(MY_CNF)
 	 MY_CNF=$(MY_CNF) /usr/local/bin/mysql_latin_utf8.sh | pv | sudo mysql --defaults-file=$(MY_CNF)
 __EOF__
