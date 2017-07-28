@@ -9,3 +9,5 @@ variable "db_password" {}
 variable "db_host" {}
 
 variable "namespace" {}
+
+variable "default_dump_source" {}

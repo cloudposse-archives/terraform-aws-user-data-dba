@@ -8,5 +8,6 @@ data "template_file" "default" {
     db_password         = "${var.db_password}"
     db_host             = "${var.db_host}"
     namespace           = "${var.namespace}"
+    default_dump_source = "${var.default_dump_source}"
   }
 }
