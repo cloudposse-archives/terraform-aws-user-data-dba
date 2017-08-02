@@ -77,9 +77,9 @@ chmod 644 /usr/local/include/Makefile.${name}.aws_mysql
 cat <<"__EOF__" > /usr/local/include/Makefile.${name}.rds
 CLUSTER ?= ${db_cluster_name}
 
-.PNONY : ${name}\:restore-from-snapshot
+.PNONY : ${name}\:db-restore-from-snapshot
 ## Restore dump from snapshot. Specify SNAPSHOT_ID and DRY_RUN=false
-${name}\:restore-from-snapshot:
+${name}\:db-restore-from-snapshot:
 	$(call assert-set,SNAPSHOT_ID)
 	$(call assert-set,DRY_RUN)
 	@DRY_RUN=$(DRY_RUN) MASTER_PASSWORD=$(shell sudo cat /root/${name}.my.cnf | grep password | cut -d'=' -f2) /usr/local/bin/rds_restore_cluster_from_snapshot.sh $(CLUSTER) $(SNAPSHOT_ID)
