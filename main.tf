@@ -1,6 +1,6 @@
 resource "null_resource" "default" {
   triggers = {
-    id = "${lower(format("%v-%v-%v", var.namespace, var.stage, var.name))}"
+    id = "${lower(format("%v-%v-%v-%v", var.namespace, var.stage, var.name, "db"))}"
   }
 
   lifecycle {
