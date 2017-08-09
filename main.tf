@@ -2,7 +2,7 @@
 module "label" {
   source    = "git::https://github.com/cloudposse/tf_label.git?ref=tags/0.1.0"
   namespace = "${var.namespace}"
-  name      = "${var.name}"
+  name      = "${var.name}-db"
   stage     = "${var.stage}"
 }
 
@@ -23,7 +23,7 @@ data "template_file" "default" {
 
 ## IAM Role Policy that allows access to S3
 resource "aws_iam_policy" "default" {
-  name = "${module.label.id}-db"
+  name = "${module.label.id}"
 
   lifecycle {
     create_before_destroy = true
