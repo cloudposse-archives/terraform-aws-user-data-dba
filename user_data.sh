@@ -24,7 +24,7 @@ chmod 600 /root/${name}.my.cnf
 ## Makefile for MySQL commands
 ##
 
-curl https://raw.githubusercontent.com/cloudposse/mysql_fix_encoding/4.0/fix_it.sh -o /usr/local/bin/mysql_latin_utf8.sh
+curl https://raw.githubusercontent.com/cloudposse/mysql_fix_encoding/4.1/fix_it.sh -o /usr/local/bin/mysql_latin_utf8.sh
 chmod +x /usr/local/bin/mysql_latin_utf8.sh
 
 curl https://raw.githubusercontent.com/cloudposse/rds-snapshot-restore/1.0/rds_restore_cluster_from_snapshot.sh -o /usr/local/bin/rds_restore_cluster_from_snapshot.sh
