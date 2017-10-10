@@ -62,18 +62,18 @@ ${name}\:db-import-from-s3:
 	pv $(TMP_DIR)/$(DUMP_BASENAME).sql.gz | gzip -dc | sudo mysql --defaults-file=$(MY_CNF) $(DB)
 	@echo "Create additional databases..."
 	find $(TMP_DIR) -name "*.gz" -printf "%f\n" | \
-		sed -e "s/\..*$///" | \
+		sed -e 's/\..*$///' | \
 		sed -e "s/$(DUMP_BASENAME)//" | \
 		xargs -I '{}' sudo mysql --defaults-file=$(MY_CNF) -e "CREATE DATABASE IF NOT EXISTS $(DB){}"
 	@echo "Import additional dumps..."
 	find $(TMP_DIR) -name "*.gz" -printf "%f\n" | \
-		sed -e "s/\..*$///" | \
+		sed -e 's/\..*$///' | \
 		sed -e "s/$(DUMP_BASENAME)//" | \
 		xargs -I '{}' sh -c "pv $(TMP_DIR)/$(DUMP_BASENAME){}.sql.gz | gzip -dc | sudo mysql --defaults-file=$(MY_CNF) $(DB){}"
 	@echo "Fix encoding"
 	MY_CNF=$(MY_CNF) DB=$(DB) /usr/local/bin/mysql_latin_utf8.sh | pv | sudo mysql --defaults-file=$(MY_CNF) $(DB)
 	find $(TMP_DIR) -name "*.gz" -printf "%f\n" | \
-		sed -e "s/\..*$///" | \
+		sed -e 's/\..*$///' | \
 		sed -e "s/$(DUMP_BASENAME)//" | \
 		xargs -I '{}' sh -c "MY_CNF=$(MY_CNF) DB=$(DB){} /usr/local/bin/mysql_latin_utf8.sh | pv | sudo mysql --defaults-file=$(MY_CNF) $(DB){}"
 	@echo "Remove tmp dumps..."
