@@ -1,1 +1,1 @@
-# terraform-aws-ubuntu-dba-user-data
+# terraform-template-ubuntu-dba-user-data
