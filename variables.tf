@@ -29,12 +29,12 @@ variable "db_host" {
 }
 
 variable "os" {
-  default = "ubuntu"
+  default     = "ubuntu"
   description = "Server OS that will execute user data script"
 }
 
 variable "s3_dump_sources" {
-  type    = "list"
-  default = []
+  type        = "list"
+  default     = []
   description = "S3 buckets used to store dumps"
 }
