@@ -1,14 +1,18 @@
 # Define composite variables for resources
 module "label" {
-  source    = "git::https://github.com/cloudposse/tf_label.git?ref=tags/0.1.0"
-  namespace = "${var.namespace}"
-  name      = "${var.name}-db"
-  stage     = "${var.stage}"
+  source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.2.1"
+  namespace  = "${var.namespace}"
+  name       = "${var.name}"
+  stage      = "${var.stage}"
+  attributes = ["db"]
 }
 
+locals {
+  template_path = "${path.module}/templates/${var.os}.sh"
+}
 
 data "template_file" "default" {
-  template = "${file("${path.module}/user_data.sh")}"
+  template = "${file(local.template_path)}"
 
   vars {
     db_cluster_name     = "${var.db_cluster_name}"
@@ -46,7 +50,7 @@ data "aws_iam_policy_document" "default" {
   }
 
   statement {
-    actions = [ "s3:ListBucket" ]
+    actions = ["s3:ListBucket"]
 
     effect = "Allow"
 
@@ -54,7 +58,7 @@ data "aws_iam_policy_document" "default" {
   }
 
   statement {
-    actions = [ "s3:*" ]
+    actions = ["s3:*"]
 
     effect = "Allow"
 
