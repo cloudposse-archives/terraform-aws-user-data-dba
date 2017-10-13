@@ -24,7 +24,7 @@ chmod 600 /root/${name}.my.cnf
 ## Makefile for MySQL commands
 ##
 
-curl https://raw.githubusercontent.com/cloudposse/mysql_fix_encoding/3.0/fix_it.sh -o /usr/local/bin/mysql_latin_utf8.sh
+curl https://raw.githubusercontent.com/cloudposse/mysql_fix_encoding/4.1/fix_it.sh -o /usr/local/bin/mysql_latin_utf8.sh
 chmod +x /usr/local/bin/mysql_latin_utf8.sh
 
 curl https://raw.githubusercontent.com/cloudposse/rds-snapshot-restore/1.0/rds_restore_cluster_from_snapshot.sh -o /usr/local/bin/rds_restore_cluster_from_snapshot.sh
@@ -34,11 +34,12 @@ cat <<"__EOF__" > /usr/local/include/Makefile.${name}.mysql
 DUMP ?= /tmp/mysqldump.sql
 
 .PNONY : ${name}\:db-import
+DB ?= app
 ## Import dump
 ${name}\:db-import:
 	$(eval MY_CNF?=/root/${name}.my.cnf)
 	@pv $(DUMP) | sudo mysql --defaults-file=$(MY_CNF)
-	MY_CNF=$(MY_CNF) /usr/local/bin/mysql_latin_utf8.sh | pv | sudo mysql --defaults-file=$(MY_CNF)
+	MY_CNF=$(MY_CNF) DB=$(DB) /usr/local/bin/mysql_latin_utf8.sh | pv | sudo mysql --defaults-file=$(MY_CNF) $(DB)
 __EOF__
 chmod 644 /usr/local/include/Makefile.${name}.mysql
 
@@ -61,14 +62,20 @@ ${name}\:db-import-from-s3:
 	pv $(TMP_DIR)/$(DUMP_BASENAME).sql.gz | gzip -dc | sudo mysql --defaults-file=$(MY_CNF) $(DB)
 	@echo "Create additional databases..."
 	find $(TMP_DIR) -name "*.gz" -printf "%f\n" | \
-	  sed -e "s/\..*$///" | \
-	  sed -e "s/$(DUMP_BASENAME)//" | \
-	  xargs -I '{}' sudo mysql --defaults-file=$(MY_CNF) -e "CREATE DATABASE IF NOT EXISTS $(DB){}"
+		sed -e 's/\..*$///' | \
+		sed -e "s/$(DUMP_BASENAME)//" | \
+		xargs -I '{}' sudo mysql --defaults-file=$(MY_CNF) -e "CREATE DATABASE IF NOT EXISTS $(DB){}"
 	@echo "Import additional dumps..."
 	find $(TMP_DIR) -name "*.gz" -printf "%f\n" | \
-	  sed -e "s/\..*$///" | \
-	  sed -e "s/$(DUMP_BASENAME)//" | \
-	  xargs -I '{}' sh -c "pv $(TMP_DIR)/$(DUMP_BASENAME){}.sql.gz | gzip -dc | sudo mysql --defaults-file=$(MY_CNF) $(DB){}"
+		sed -e 's/\..*$///' | \
+		sed -e "s/$(DUMP_BASENAME)//" | \
+		xargs -I '{}' sh -c "pv $(TMP_DIR)/$(DUMP_BASENAME){}.sql.gz | gzip -dc | sudo mysql --defaults-file=$(MY_CNF) $(DB){}"
+	@echo "Fix encoding"
+	MY_CNF=$(MY_CNF) DB=$(DB) /usr/local/bin/mysql_latin_utf8.sh | pv | sudo mysql --defaults-file=$(MY_CNF) $(DB)
+	find $(TMP_DIR) -name "*.gz" -printf "%f\n" | \
+		sed -e 's/\..*$///' | \
+		sed -e "s/$(DUMP_BASENAME)//" | \
+		xargs -I '{}' sh -c "MY_CNF=$(MY_CNF) DB=$(DB){} /usr/local/bin/mysql_latin_utf8.sh | pv | sudo mysql --defaults-file=$(MY_CNF) $(DB){}"
 	@echo "Remove tmp dumps..."
 	rm -rf $(TMP_DIR)
 __EOF__
