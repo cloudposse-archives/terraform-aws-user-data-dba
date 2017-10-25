@@ -44,7 +44,7 @@ ${name}\:db-import:
 ## DB connect
 ${name}\:db-connect:
 	$(eval MY_CNF?=/root/${name}.my.cnf)
-	sudo mysql --defaults-file=$(MY_CNF) $(DB)
+	@sudo mysql --defaults-file=$(MY_CNF) $(DB)
 
 __EOF__
 chmod 644 /usr/local/include/Makefile.${name}.mysql
