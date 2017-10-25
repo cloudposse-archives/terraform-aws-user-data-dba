@@ -40,6 +40,12 @@ ${name}\:db-import:
 	$(eval MY_CNF?=/root/${name}.my.cnf)
 	@pv $(DUMP) | sudo mysql --defaults-file=$(MY_CNF)
 	MY_CNF=$(MY_CNF) DB=$(DB) /usr/local/bin/mysql_latin_utf8.sh | pv | sudo mysql --defaults-file=$(MY_CNF) $(DB)
+
+## DB connect
+${name}\:db-connect:
+	$(eval MY_CNF?=/root/${name}.my.cnf)
+	sudo mysql --defaults-file=$(MY_CNF) $(DB)
+
 __EOF__
 chmod 644 /usr/local/include/Makefile.${name}.mysql
 
