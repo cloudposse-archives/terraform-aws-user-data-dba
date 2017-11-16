@@ -33,13 +33,19 @@ chmod +x /usr/local/bin/rds_restore_cluster_from_snapshot.sh
 cat <<"__EOF__" > /usr/local/include/Makefile.${name}.mysql
 DUMP ?= /tmp/mysqldump.sql
 
-.PNONY : ${name}\:db-import
-DB ?= app
+.PHONY : ${name}\:db-import
+DB ?= ${db_name}
 ## Import dump
 ${name}\:db-import:
 	$(eval MY_CNF?=/root/${name}.my.cnf)
 	@pv $(DUMP) | sudo mysql --defaults-file=$(MY_CNF)
 	MY_CNF=$(MY_CNF) DB=$(DB) /usr/local/bin/mysql_latin_utf8.sh | pv | sudo mysql --defaults-file=$(MY_CNF) $(DB)
+
+## DB connect
+${name}\:db-connect:
+	$(eval MY_CNF?=/root/${name}.my.cnf)
+	@sudo mysql --defaults-file=$(MY_CNF) $(DB)
+
 __EOF__
 chmod 644 /usr/local/include/Makefile.${name}.mysql
 
@@ -47,9 +53,9 @@ cat <<"__EOF__" > /usr/local/include/Makefile.${name}.aws_mysql
 DUMP_BASENAME ?= mysqldump
 TIMESTAMP:=$(shell date | md5sum | cut -d" " -f1)
 TMP_DIR ?= /tmp/$(TIMESTAMP)
-DB ?= app
+DB ?= ${db_name}
 
-.PNONY : ${name}\:db-import-from-s3
+.PHONY : ${name}\:db-import-from-s3
 ## Import dump from ${default_dump_source}
 ${name}\:db-import-from-s3:
 	$(eval MY_CNF?=/root/${name}.my.cnf)
@@ -84,7 +90,7 @@ chmod 644 /usr/local/include/Makefile.${name}.aws_mysql
 cat <<"__EOF__" > /usr/local/include/Makefile.${name}.rds
 CLUSTER ?= ${db_cluster_name}
 
-.PNONY : ${name}\:db-restore-from-snapshot
+.PHONY : ${name}\:db-restore-from-snapshot
 ## Restore dump from snapshot. Specify SNAPSHOT_ID and DRY_RUN=false
 ${name}\:db-restore-from-snapshot:
 	$(call assert-set,SNAPSHOT_ID)
