@@ -28,9 +28,9 @@ variable "db_host" {
   description = "DB host"
 }
 
-variable "os" {
-  default     = "ubuntu"
-  description = "Server OS that will execute user data script"
+variable "flavor" {
+  default     = "debian-systemd"
+  description = "Flavor denpends of OS and init system"
 }
 
 variable "s3_dump_sources" {
