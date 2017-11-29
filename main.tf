@@ -15,13 +15,15 @@ data "template_file" "default" {
   template = "${file(local.template_path)}"
 
   vars {
-    db_cluster_name     = "${var.db_cluster_name}"
-    db_name             = "${var.db_name}"
-    db_user             = "${var.db_user}"
-    db_password         = "${var.db_password}"
-    db_host             = "${var.db_host}"
-    name                = "${var.name}"
-    default_dump_source = "${length(var.s3_dump_sources) > 0 ? element(var.s3_dump_sources, 0) : ""}"
+    db_cluster_name         = "${var.db_cluster_name}"
+    db_name                 = "${var.db_name}"
+    db_user                 = "${var.db_user}"
+    db_password             = "${var.db_password}"
+    db_host                 = "${var.db_host}"
+    name                    = "${var.name}"
+    default_dump_source     = "${length(var.s3_dump_sources) > 0 ? element(var.s3_dump_sources, 0) : ""}"
+    fix_encoding_use_binary = "${var.fix_encoding_use_binary}"
+    encoding                = "${var.result_encoding}"
   }
 }
 
