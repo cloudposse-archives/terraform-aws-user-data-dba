@@ -33,6 +33,16 @@ variable "flavor" {
   description = "Flavor depends of OS and init system"
 }
 
+variable "fix_encoding_use_binary" {
+  default     = "true"
+  description = "Use {source encoding} -> binary -> {result encoding} pattern to fix encoding"
+}
+
+variable "result_encoding" {
+  default     = "utf8"
+  description = "Resulting db encoding"
+}
+
 variable "s3_dump_sources" {
   type        = "list"
   default     = []
