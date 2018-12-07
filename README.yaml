@@ -5,7 +5,7 @@
 #
 
 # Name of this project
-name: terraform-aws-user-data-s3-backend
+name: terraform-template-user-data-dba
 
 # Tags of this project
 tags:
@@ -26,16 +26,16 @@ categories:
 license: "APACHE2"
 
 # Canonical GitHub repo
-github_repo: cloudposse/terraform-aws-user-data-s3-backend
+github_repo: cloudposse/terraform-template-user-data-dba
 
 # Badges to display
 badges:
   - name: "Build Status"
-    image: "https://travis-ci.org/cloudposse/terraform-aws-user-data-s3-backend.svg?branch=master"
-    url: "https://travis-ci.org/cloudposse/terraform-aws-user-data-s3-backend"
+    image: "https://travis-ci.org/cloudposse/terraform-template-user-data-dba.svg?branch=master"
+    url: "https://travis-ci.org/cloudposse/terraform-template-user-data-dba"
   - name: "Latest Release"
-    image: "https://img.shields.io/github/release/cloudposse/terraform-aws-user-data-s3-backend.svg"
-    url: "https://github.com/cloudposse/terraform-aws-user-data-s3-backend/releases/latest"
+    image: "https://img.shields.io/github/release/cloudposse/terraform-template-user-data-dba.svg"
+    url: "https://github.com/cloudposse/terraform-template-user-data-dba/releases/latest"
   - name: "Slack Community"
     image: "https://slack.cloudposse.com/badge.svg"
     url: "https://slack.cloudposse.com"
@@ -53,9 +53,9 @@ related:
   - name: "terraform-aws-user-data-resolv-conf"
     description: "terraform-aws-user-data-resolv-conf"
     url: "https://travis-ci.org/cloudposse/terraform-aws-user-data-resolv-conf"
-  - name: "terraform-template-user-data-dba"
-    description: "terraform-template-user-data-dba"
-    url: "https://travis-ci.org/cloudposse/terraform-template-user-data-dba"
+  - name: "terraform-aws-user-data-s3-backend"
+    description: "terraform-aws-user-data-s3-backend"
+    url: "https://travis-ci.org/cloudposse/terraform-aws-user-data-s3-backend"
   - name: "terraform-template-user-data-dba"
     description: "terraform-template-user-data-dba"
     url: "https://travis-ci.org/cloudposse/terraform-template-user-data-dba"
@@ -68,7 +68,7 @@ related:
 
 # Short description of this project
 description: |-
-  terraform-aws-user-data-s3-backend
+  terraform-template-user-data-dba
 
 # How to use this project
 # usage: |-
