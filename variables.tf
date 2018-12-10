@@ -1,12 +1,17 @@
 variable "namespace" {
-  default = "global"
+  description = "Namespace (e.g. `cp` or `cloudposse`)"
+  type        = "string"
 }
 
 variable "stage" {
-  default = "default"
+  description = "Stage (e.g. `prod`, `dev`, `staging`)"
+  type        = "string"
 }
 
-variable "name" {}
+variable "name" {
+  description = "Name  (e.g. `app` or `cluster`)"
+  type        = "string"
+}
 
 variable "db_cluster_name" {
   description = "DB cluster name"

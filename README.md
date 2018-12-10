@@ -68,18 +68,18 @@ Available targets:
 | db_user | DB user | string | - | yes |
 | fix_encoding_use_binary | Use {source encoding} -> binary -> {result encoding} pattern to fix encoding | string | `true` | no |
 | flavor | Flavor depends of OS and init system | string | `debian-systemd` | no |
-| name |  | string | - | yes |
-| namespace |  | string | `global` | no |
+| name | Name  (e.g. `app` or `cluster`) | string | - | yes |
+| namespace | Namespace (e.g. `cp` or `cloudposse`) | string | - | yes |
 | result_encoding | Resulting db encoding | string | `utf8` | no |
 | s3_dump_sources | S3 buckets used to store dumps | list | `<list>` | no |
-| stage |  | string | `default` | no |
+| stage | Stage (e.g. `prod`, `dev`, `staging`) | string | - | yes |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| policy_arn |  |
-| user_data |  |
+| policy_arn | User data script iam policy that should be executed on startup |
+| user_data | User data script that should be executed on startup |
 
 
 
@@ -95,14 +95,14 @@ Are you using this project or any of our other projects? Consider [leaving a tes
 
 Check out these related projects.
 
-- [terraform-template-user-data-assests](https://travis-ci.org/cloudposse/terraform-template-user-data-assests) - terraform-template-user-data-assests
-- [terraform-template-user-data-cloud](https://travis-ci.org/cloudposse/terraform-template-user-data-cloud) - terraform-template-user-data-cloud
-- [terraform-aws-user-data-dns-proxy](https://travis-ci.org/cloudposse/terraform-aws-user-data-dns-proxy) - terraform-aws-user-data-dns-proxy
-- [terraform-aws-user-data-resolv-conf](https://travis-ci.org/cloudposse/terraform-aws-user-data-resolv-conf) - terraform-aws-user-data-resolv-conf
-- [terraform-aws-user-data-s3-backend](https://travis-ci.org/cloudposse/terraform-aws-user-data-s3-backend) - terraform-aws-user-data-s3-backend
-- [terraform-template-user-data-dba](https://travis-ci.org/cloudposse/terraform-template-user-data-dba) - terraform-template-user-data-dba
-- [terraform-template-user-data-github-authorized-keys](https://travis-ci.org/cloudposse/terraform-template-user-data-github-authorized-keys) - terraform-template-user-data-github-authorized-keys
-- [terraform-template-user-data-nfs](https://travis-ci.org/cloudposse/terraform-template-user-data-nfs) - terraform-template-user-data-nfs
+- [terraform-template-user-data-assests](https://github.com/cloudposse/terraform-template-user-data-assests) - terraform-template-user-data-assests
+- [terraform-template-user-data-cloud](https://github.com/cloudposse/terraform-template-user-data-cloud) - terraform-template-user-data-cloud
+- [terraform-aws-user-data-dns-proxy](https://github.com/cloudposse/terraform-aws-user-data-dns-proxy) - terraform-aws-user-data-dns-proxy
+- [terraform-aws-user-data-resolv-conf](https://github.com/cloudposse/terraform-aws-user-data-resolv-conf) - terraform-aws-user-data-resolv-conf
+- [terraform-aws-user-data-s3-backend](https://github.com/cloudposse/terraform-aws-user-data-s3-backend) - terraform-aws-user-data-s3-backend
+- [terraform-template-user-data-dba](https://github.com/cloudposse/terraform-template-user-data-dba) - terraform-template-user-data-dba
+- [terraform-template-user-data-github-authorized-keys](https://github.com/cloudposse/terraform-template-user-data-github-authorized-keys) - terraform-template-user-data-github-authorized-keys
+- [terraform-template-user-data-nfs](https://github.com/cloudposse/terraform-template-user-data-nfs) - terraform-template-user-data-nfs
 
 
 
